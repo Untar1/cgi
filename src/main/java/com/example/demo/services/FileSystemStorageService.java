@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -68,11 +67,12 @@ public class FileSystemStorageService implements StorageService {
 
             ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
 
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            FileOutputStream fileOutputStream = new FileOutputStream(this.rootLocation.resolve(fileName).toString());
             FileChannel fileChannel = fileOutputStream.getChannel();
 
             fileOutputStream.getChannel()
                     .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+            fileChannel.close();
             fileOutputStream.close();
         } catch (Exception e) {
             throw new StorageFileNotFoundException("Url is invalid: " + input_url, e);
@@ -83,9 +83,9 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.rootLocation, 1)
+            return Files.walk(this.rootLocation, 1);
                     //.filter(path -> !path.equals(this.rootLocation))
-                    .map(path -> this.rootLocation.relativize(path));
+                    //.map(path -> this.rootLocation.relativize(path));
         } catch (IOException ioe) {throw new StorageException("Failed to read stored files"); }
     }
 

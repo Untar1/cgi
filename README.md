@@ -3,13 +3,11 @@
 ## Notes
 
 For solving task 1 I used materials from [Spring official sources](https://spring.io/guides/gs/uploading-files/).
-Managed to finish only part 1, somewhat.
+For URL uploading, I referenced the materials I found on [Baeldung](https://www.baeldung.com/java-download-file).
 
-For task 2 - logging history should be relatively easy to implement. I could either implement a database-style system.
-Current system holds only the current "session" as the system makes a wipe of the storage, so it displays all files
-uploaded in the current session. However, to make it proper, I could just add either a "display by session ID"
-or find something else.
+For task 2 - I implemented "session" by checking when file was last modified - if the "last modified" is before session started,
+the file is not shown. While this is not the "ideal" solution, but it still works.
 
-For task 3 - I could use a Decision Tree or Random Forest for decision making task. I was planning on running several
-models to test out options. RMSE and ROC/AUC would be sufficient to decide. I could get a training dataset from the
-internet (for example, some famous cartoon characters). 
+For task 3 - I used [Dreamix guide](https://dreamix.eu/blog/java/how-to-use-jython-with-spring-boot-2) for [Jython](https://www.jython.org/)
+to integrate Python script directly into Spring. I did not implement any machine learning or anything for "prediction". Instead,
+I simply get the first 10 bytes of the file and use them as a "seed" for a random integer generator.

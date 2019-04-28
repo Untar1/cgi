@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Upload a File</title>
 </head>
-<body>
+<body th:align="center">
     <div th:if="${message}">
         <h2 th:text="${message}"/>
     </div>
@@ -13,17 +13,46 @@
         <form method="POST" enctype="multipart/form-data" action="/">
             <table>
                 <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                <tr><td>Upload by URL:</td><td><input type="url" name="urlLink" /></td></tr>
                 <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
             </table>
         </form>
     </div>
+    <br><br><br><br>
 
     <div>
-        <ul>
-            <li th:each="file : ${files}">
-                <a th:href="${file}" th:text="${file}" />
-            </li>
-        </ul>
+        <table border="1">
+            <tr>
+                <th>File Link</th>
+                <th>File Name</th>
+                <th>File Size</th>
+                <th>File Resolution</th>
+                <th>File Ext.</th>
+                <th> Label   </th>
+
+            </tr>
+                <tr th:each="file : ${files}">
+                    <script>
+                        var str = "[[${file}]]";
+                        //alert(inputLine);
+                        //var tableRow = str.match(/;.+;/gi);
+                        var tableRow = str.split(";");
+                        document.write("<tr>");
+                        //alert(tableRow[0]);
+                        document.write("<td><a href=\'"+tableRow[0] +"\' >" + tableRow[0] + "</a></td>");
+                        for (i = 1; i < tableRow.length; i++) {
+                            document.write("<td>" + tableRow[i] + "</td>");
+                        }
+                        document.write("</tr>");
+                    </script>
+                    </tr>
+
+        </table>
+<!--        <ul>-->
+<!--            <li th:each="file : ${files}">-->
+<!--                <a th:href="${file}" th:text="${file}" />-->
+<!--            </li>-->
+<!--        </ul>-->
     </div>
 </body>
 
